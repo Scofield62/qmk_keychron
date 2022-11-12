@@ -20,7 +20,15 @@ enum layers{
     MAC_BASE,
     MAC_FN,
     WIN_BASE,
-    WIN_FN
+    WIN_FN,
+    MAC_PASS_FN
+};
+
+
+enum {
+    TD_SIT,
+    TD_UAT,
+    TD_PROD
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -30,7 +38,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB,   KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,     KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     KC_LBRC,  KC_RBRC,              KC_DEL,   KC_END,   KC_PGDN,
         KC_CAPS,  KC_A,     KC_S,     KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_QUOT,  KC_NUHS,    KC_ENT,
         KC_LSFT,  KC_NUBS,  KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,              KC_RSFT,            KC_UP,
-        KC_LCTL,  KC_LOPT,  KC_LCMD,                                KC_SPC,                                 KC_RCMD,  KC_ROPT,  TG(MAC_FN), KC_RCTL,  KC_LEFT,  KC_DOWN,  KC_RGHT),
+        KC_LCTL,  KC_LOPT,  KC_LCMD,                                KC_SPC,                                 KC_RCMD,  KC_ROPT,  TT(MAC_FN), KC_RCTL,  KC_LEFT,  KC_DOWN,  KC_RGHT),
 
     [MAC_FN] = LAYOUT_tkl_f13_iso(
         _______,  KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,     RGB_TOG,  _______,  _______,  RGB_TOG,
@@ -38,7 +46,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         RGB_TOG,  RGB_MOD,  RGB_VAI,  RGB_HUI,  RGB_SAI,  RGB_SPI,  _______,  _______,  _______,  _______,  _______,  _______,  _______,              RESET,    _______,  _______,
         _______,  RGB_RMOD, RGB_VAD,  RGB_HUD,  RGB_SAD,  RGB_SPD,  _______,  _______,  _______,  _______,  _______,  _______,  _______,    _______,
         _______,  _______,  _______,  _______,  _______,  _______,  _______,  NK_TOGG,  _______,  _______,  _______,  _______,              _______,            _______,
-        _______,  _______,  _______,                                _______,                                _______,  _______,  _______,    _______,  _______,  _______,  _______),
+        _______,  _______,  _______,                                _______,                                _______,  _______,  _______,    TT(MAC_PASS_FN),  _______,  _______,  _______),
 
     [WIN_BASE] = LAYOUT_tkl_f13_iso(
         KC_ESC,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,     KC_MUTE,  KC_PSCR,  KC_NO,    RGB_MOD,
@@ -55,6 +63,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,  RGB_RMOD, RGB_VAD,  RGB_HUD,  RGB_SAD,  RGB_SPD,  _______,  _______,  _______,  _______,  _______,  _______,  _______,    _______,
         _______,  _______,  _______,  _______,  _______,  _______,  _______,  NK_TOGG,  _______,  _______,  _______,  _______,              _______,            _______,
         _______,  _______,  _______,                                _______,                                _______,  _______,  _______,    _______,  _______,  _______,  _______),
+
+    [MAC_PASS_FN] = LAYOUT_tkl_f13_iso(
+        _______,  KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,     RGB_TOG,  _______,  _______,  RGB_TOG,
+        _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,    _______,  _______,  _______,  _______,
+        RGB_TOG,  RGB_MOD,  RGB_VAI,  RGB_HUI,  RGB_SAI,  RGB_SPI,  _______,  TD(TD_UAT),  _______,  _______,  TD(TD_PROD),  _______,  _______,              _______,    _______,  _______,
+        _______,  RGB_RMOD, TD(TD_SIT),  RGB_HUD,  RGB_SAD,  RGB_SPD,  _______,  _______,  _______,  _______,  _______,  _______,  _______,    _______,
+        _______,  _______,  _______,  _______,  _______,  _______,  _______,  NK_TOGG,  _______,  _______,  _______,  _______,              _______,            _______,
+        _______,  _______,  _______,                                LSG(KC_SPC),                                _______,  _______,  _______,    _______,  _______,  _______,  _______),
 };
 
 #if defined(ENCODER_MAP_ENABLE)
@@ -62,6 +78,61 @@ const uint16_t PROGMEM encoder_map[][1][2] = {
     [MAC_BASE] = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
     [MAC_FN]   = {ENCODER_CCW_CW(RGB_VAD, RGB_VAI) },
     [WIN_BASE] = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
-    [WIN_FN]   = {ENCODER_CCW_CW(RGB_VAD, RGB_VAI) }
+    [WIN_FN]   = {ENCODER_CCW_CW(RGB_VAD, RGB_VAI) },
+    [MAC_PASS_FN]   = {ENCODER_CCW_CW(RGB_SPD, RGB_SPI) },
 };
 #endif
+
+void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+    switch(get_highest_layer(layer_state|default_layer_state)) {
+        case 4:
+            rgb_matrix_set_color_all(0,0,0);
+            rgb_matrix_set_color(51, 0, 255, 0);
+            rgb_matrix_set_color(40, 255, 255, 0);
+            rgb_matrix_set_color(43, 255, 0, 0);
+            rgb_matrix_set_color(80, 255, 255, 255);
+            break;
+        default:
+            break;
+    }
+};
+
+#define ACTION_TAP_DANCE_FN_KEYCODE(user_fn, kc) {  \
+     .fn = { NULL, user_fn, NULL }, \
+     .user_data = (void *)&((qk_tap_dance_pair_t) { kc, 0 }) \
+ }
+
+void dance_cpc(qk_tap_dance_state_t *state, void *user_data) {
+    qk_tap_dance_pair_t *pair = (qk_tap_dance_pair_t *)user_data;
+    uint16_t keycode = pair->kc1;
+
+    char cpcenv[20];
+    if(keycode == KC_S)
+        strcpy(cpcenv, "sit");
+    if(keycode == KC_U)
+        strcpy(cpcenv, "uat");
+    if(keycode == KC_P)
+        strcpy(cpcenv, "prod");
+    switch(state->count) {
+        case 1:
+            SEND_STRING(strcat(cpcenv," service tier"));
+            break;
+        case 2:
+            SEND_STRING(strcat(cpcenv," engine tier"));
+            break;
+        case 3:
+            SEND_STRING(strcat(cpcenv," repositorz tier"));
+            break;
+        default:
+            break;
+    }
+    SEND_STRING(SS_DELAY(500) SS_LCMD(SS_LSFT(SS_TAP(X_C))) SS_TAP(X_DEL));
+    layer_invert(MAC_PASS_FN);
+};
+
+qk_tap_dance_action_t tap_dance_actions[] = {
+    // Tap once for Escape, twice for Caps Lock
+    [TD_SIT] =  ACTION_TAP_DANCE_FN_KEYCODE(dance_cpc, KC_S),
+    [TD_UAT] =  ACTION_TAP_DANCE_FN_KEYCODE(dance_cpc, KC_U),
+    [TD_PROD] = ACTION_TAP_DANCE_FN_KEYCODE(dance_cpc, KC_P)
+};
