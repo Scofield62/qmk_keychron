@@ -17,6 +17,7 @@
 #pragma once
 
 #define TAPPING_TOGGLE 2
+#define TAPPING_TERM 175
 
 /* key matrix pins */
 #define MATRIX_ROW_PINS { B5, B4, B3, A15, A14, A13 }

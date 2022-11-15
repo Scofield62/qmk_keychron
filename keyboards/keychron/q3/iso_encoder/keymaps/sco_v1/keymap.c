@@ -21,24 +21,31 @@ enum layers{
     MAC_FN,
     WIN_BASE,
     WIN_FN,
-    MAC_PASS_FN
+    MAC_PASS_FN,
+    MAC_VSCODE
 };
 
 
 enum {
     TD_SIT,
     TD_UAT,
-    TD_PROD
+    TD_PROD,
+    TD_NEXT_DESK,
+    TD_PREVIOUS_DESK,
+    TD_TOP_OF_FILE,
+    TD_END_OF_FILE,
+    TD_PRNT_SCRN,
+    TD_MAC_LAYERS
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [MAC_BASE] = LAYOUT_tkl_f13_iso(
-        KC_ESC,   KC_BRID,  KC_BRIU,  KC_NO,    KC_NO,    RGB_VAD,  RGB_VAI,  KC_MPRV,  KC_MPLY,  KC_MNXT,  KC_MUTE,  KC_VOLD,  KC_VOLU,    KC_MUTE,  KC_NO,    KC_NO,    RGB_MOD,
-        KC_GRV,   KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,     KC_7,     KC_8,     KC_9,     KC_0,     KC_MINS,  KC_EQL,     KC_BSPC,  KC_INS,   KC_HOME,  KC_PGUP,
-        KC_TAB,   KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,     KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     KC_LBRC,  KC_RBRC,              KC_DEL,   KC_END,   KC_PGDN,
+        KC_ESC,   KC_BRID,  KC_BRIU,  KC_NO,    KC_NO,    RGB_VAD,  RGB_VAI,  KC_MPRV,  KC_MPLY,  KC_MNXT,  KC_MUTE,  KC_VOLD,  KC_VOLU,    KC_MUTE,  TD(TD_PRNT_SCRN),    TD(TD_MAC_LAYERS),    RGB_MOD,
+        KC_GRV,   KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,     KC_7,     KC_8,     KC_9,     KC_0,     KC_MINS,  KC_EQL,     KC_BSPC,  KC_INS,   KC_HOME,  TD(TD_TOP_OF_FILE),
+        KC_TAB,   KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,     KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     KC_LBRC,  KC_RBRC,              KC_DEL,   KC_END,   TD(TD_END_OF_FILE),
         KC_CAPS,  KC_A,     KC_S,     KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_QUOT,  KC_NUHS,    KC_ENT,
-        KC_LSFT,  KC_NUBS,  KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,              KC_RSFT,            KC_UP,
-        KC_LCTL,  KC_LOPT,  KC_LCMD,                                KC_SPC,                                 KC_RCMD,  KC_ROPT,  TT(MAC_FN), KC_RCTL,  KC_LEFT,  KC_DOWN,  KC_RGHT),
+        TD(TD_NEXT_DESK),  KC_NUBS,  KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,              KC_RSFT,            KC_UP,
+        TD(TD_PREVIOUS_DESK),  KC_LOPT,  KC_LCMD,                                KC_SPC,                                 KC_RCMD,  KC_ROPT,  TT(MAC_FN), KC_RCTL,  KC_LEFT,  KC_DOWN,  KC_RGHT),
 
     [MAC_FN] = LAYOUT_tkl_f13_iso(
         _______,  KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,     RGB_TOG,  _______,  _______,  RGB_TOG,
@@ -71,6 +78,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,  RGB_RMOD, TD(TD_SIT),  RGB_HUD,  RGB_SAD,  RGB_SPD,  _______,  _______,  _______,  _______,  _______,  _______,  _______,    _______,
         _______,  _______,  _______,  _______,  _______,  _______,  _______,  NK_TOGG,  _______,  _______,  _______,  _______,              _______,            _______,
         _______,  _______,  _______,                                LSG(KC_SPC),                                _______,  _______,  _______,    _______,  _______,  _______,  _______),
+
+    [MAC_VSCODE] = LAYOUT_tkl_f13_iso(
+        KC_ESC,   KC_BRID,  KC_BRIU,  KC_NO,    KC_NO,    RGB_VAD,  RGB_VAI,  KC_MPRV,  KC_MPLY,  KC_MNXT,  KC_MUTE,  KC_VOLD,  KC_VOLU,    KC_MUTE,  TD(TD_PRNT_SCRN),    TD(TD_MAC_LAYERS),    RGB_MOD,
+        KC_GRV,   KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,     KC_7,     KC_8,     KC_9,     KC_0,     KC_MINS,  KC_EQL,     KC_BSPC,  KC_INS,   KC_HOME,  TD(TD_TOP_OF_FILE),
+        KC_TAB,   KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,     KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     KC_LBRC,  KC_RBRC,              KC_DEL,   KC_END,   TD(TD_END_OF_FILE),
+        KC_CAPS,  KC_A,     KC_S,     KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_QUOT,  KC_NUHS,    KC_ENT,
+        TD(TD_NEXT_DESK),  KC_NUBS,  KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,              KC_RSFT,            KC_UP,
+        TD(TD_PREVIOUS_DESK),  KC_LOPT,  KC_LCMD,                                KC_SPC,                                 KC_RCMD,  KC_ROPT,  TT(MAC_FN), KC_RCTL,  KC_LEFT,  KC_DOWN,  KC_RGHT),
+
 };
 
 #if defined(ENCODER_MAP_ENABLE)
@@ -80,6 +96,7 @@ const uint16_t PROGMEM encoder_map[][1][2] = {
     [WIN_BASE] = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
     [WIN_FN]   = {ENCODER_CCW_CW(RGB_VAD, RGB_VAI) },
     [MAC_PASS_FN]   = {ENCODER_CCW_CW(RGB_SPD, RGB_SPI) },
+    [MAC_VSCODE]   = {ENCODER_CCW_CW(SCMD(KC_SLSH), SCMD(KC_7)) },
 };
 #endif
 
@@ -127,12 +144,32 @@ void dance_cpc(qk_tap_dance_state_t *state, void *user_data) {
             break;
     }
     SEND_STRING(SS_DELAY(500) SS_LCMD(SS_LSFT(SS_TAP(X_C))) SS_TAP(X_DEL));
-    layer_invert(MAC_PASS_FN);
+};
+
+void dance_mac_layers(qk_tap_dance_state_t *state, void *user_data) {
+    switch(state->count) {
+        case 1:
+            layer_move(MAC_BASE);
+            rgb_matrix_reload_from_eeprom();
+            break;
+        case 2:
+            layer_move(MAC_VSCODE);
+            rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_REACTIVE_MULTINEXUS);
+            break;
+        default:
+            break;
+    }
 };
 
 qk_tap_dance_action_t tap_dance_actions[] = {
     // Tap once for Escape, twice for Caps Lock
     [TD_SIT] =  ACTION_TAP_DANCE_FN_KEYCODE(dance_cpc, KC_S),
     [TD_UAT] =  ACTION_TAP_DANCE_FN_KEYCODE(dance_cpc, KC_U),
-    [TD_PROD] = ACTION_TAP_DANCE_FN_KEYCODE(dance_cpc, KC_P)
+    [TD_PROD] = ACTION_TAP_DANCE_FN_KEYCODE(dance_cpc, KC_P),
+    [TD_NEXT_DESK] = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, LCTL(KC_RIGHT)),
+    [TD_PREVIOUS_DESK] = ACTION_TAP_DANCE_DOUBLE(KC_LCTL, LCTL(KC_LEFT)),
+    [TD_TOP_OF_FILE] = ACTION_TAP_DANCE_DOUBLE(KC_PGUP, LCMD(KC_UP)),
+    [TD_END_OF_FILE] = ACTION_TAP_DANCE_DOUBLE(KC_PGDN, LCMD(KC_DOWN)),
+    [TD_PRNT_SCRN] = ACTION_TAP_DANCE_DOUBLE(SCMD(KC_3), SCMD(KC_4)),
+    [TD_MAC_LAYERS] = ACTION_TAP_DANCE_FN(dance_mac_layers)
 };
