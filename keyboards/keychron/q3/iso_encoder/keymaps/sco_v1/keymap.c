@@ -22,7 +22,8 @@ enum layers{
     WIN_BASE,
     WIN_FN,
     WIN_PASS_FN,
-    MAC_VSCODE
+    MAC_VSCODE,
+    WIN_BASE_TWO
 };
 
 
@@ -62,7 +63,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,  _______,  _______,                                _______,                                _______,  _______,  _______,    _______,  _______,  _______,  _______),
 
     [WIN_BASE] = LAYOUT_tkl_f13_iso(
-        KC_ESC,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,     KC_MUTE,  TD(TD_PRNT_SCRN_WIN),  KC_NO,    RGB_MOD,
+        KC_ESC,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,     KC_MUTE,  TD(TD_PRNT_SCRN_WIN),  TO(WIN_BASE_TWO),    RGB_MOD,
         KC_GRV,   KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,     KC_7,     KC_8,     KC_9,     KC_0,     KC_MINS,  KC_EQL,     KC_BSPC,  KC_INS,   KC_HOME,  KC_PGUP,
         KC_TAB,   KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,     KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     KC_LBRC,  KC_RBRC,              KC_DEL,   KC_END,   KC_PGDN,
         KC_CAPS,  KC_A,     KC_S,     KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_QUOT,  KC_NUHS,    KC_ENT,
@@ -92,6 +93,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_CAPS,  KC_A,     KC_S,     KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_QUOT,  KC_NUHS,    KC_ENT,
         TD(TD_NEXT_DESK_MAC),  KC_NUBS,  KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,              KC_RSFT,            KC_UP,
         TD(TD_PREVIOUS_DESK_MAC),  KC_LOPT,  KC_LCMD,                                KC_SPC,                                 KC_RCMD,  KC_ROPT,  TT(MAC_FN), KC_RCTL,  KC_LEFT,  KC_DOWN,  KC_RGHT),
+    
+    [WIN_BASE_TWO] = LAYOUT_tkl_f13_iso(
+        KC_ESC,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,     KC_MUTE,  TD(TD_PRNT_SCRN_WIN),  TO(WIN_BASE),    RGB_MOD,
+        KC_GRV,   KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,     KC_7,     KC_8,     KC_9,     KC_0,     KC_MINS,  KC_EQL,     KC_BSPC,  KC_INS,   KC_HOME,  KC_PGUP,
+        KC_TAB,   KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,     KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     KC_LBRC,  KC_RBRC,              KC_DEL,   KC_END,   KC_PGDN,
+        KC_CAPS,  KC_A,     KC_S,     KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_QUOT,  KC_NUHS,    KC_ENT,
+        KC_LSFT,  KC_NUBS,  KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,              KC_RSFT,            KC_UP,
+        KC_LCTL,  KC_LWIN,  KC_LALT,                                KC_SPC,                                 KC_RALT,  KC_RWIN,  MO(WIN_FN), KC_RCTL,  KC_LEFT,  KC_DOWN,  KC_RGHT),
 
 };
 
@@ -103,6 +112,7 @@ const uint16_t PROGMEM encoder_map[][1][2] = {
     [WIN_FN]   = {ENCODER_CCW_CW(RGB_VAD, RGB_VAI) },
     [WIN_PASS_FN]   = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
     [MAC_VSCODE]   = {ENCODER_CCW_CW(SCMD(KC_SLSH), SCMD(KC_7)) },
+    [WIN_BASE_TWO] = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
 };
 #endif
 
@@ -212,6 +222,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 } else {
                     // On an event with any other key, reset the double tap state.
                     tapped = false;
+                }
+            }
+            break;
+        case KC_DEL:
+            if(record->event.pressed && (IS_LAYER_ON(0) || IS_LAYER_ON(5))) {
+                if(get_mods() & MOD_BIT(KC_LCMD)) {
+                    SEND_STRING(SS_LCMD(SS_LALT(SS_TAP(X_BSPC))));
                 }
             }
             break;
