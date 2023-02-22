@@ -39,3 +39,4 @@
 
 /* Enable caps-lock LED */
 #define CAPS_LOCK_LED_INDEX 49
+#define DYNAMIC_MACRO_SIZE 128

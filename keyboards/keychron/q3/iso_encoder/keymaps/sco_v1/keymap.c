@@ -39,7 +39,9 @@ enum {
     TD_END_OF_FILE,
     TD_PRNT_SCRN_MAC,
     TD_PRNT_SCRN_WIN,
-    TD_MAC_LAYERS
+    TD_MAC_LAYERS,
+    TD_DYN_MACRO,
+    TD_DYN_MACRO2
 };
 
 static uint16_t fullscreen_timer;
@@ -52,15 +54,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB,   KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,     KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     KC_LBRC,  KC_RBRC,              KC_DEL,   KC_END,   TD(TD_END_OF_FILE),
         KC_CAPS,  KC_A,     KC_S,     KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_QUOT,  KC_NUHS,    KC_ENT,
         TD(TD_NEXT_DESK_MAC),  KC_NUBS,  KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,              KC_RSFT,            KC_UP,
-        TD(TD_PREVIOUS_DESK_MAC),  KC_LOPT,  KC_LCMD,                                KC_SPC,                                 KC_RCMD,  KC_ROPT,  TT(MAC_FN), KC_RCTL,  KC_LEFT,  KC_DOWN,  KC_RGHT),
+        TD(TD_PREVIOUS_DESK_MAC),  KC_LOPT,  KC_LCMD,                                KC_SPC,                                 KC_RCMD,  KC_ROPT,  MO(MAC_FN), KC_RCTL,  KC_LEFT,  KC_DOWN,  KC_RGHT),
 
     [MAC_FN] = LAYOUT_tkl_f13_iso(
         _______,  KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,     RGB_TOG,  _______,  _______,  RGB_TOG,
-        _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,    _______,  _______,  _______,  _______,
+        _______,  TD(TD_DYN_MACRO),   TD(TD_DYN_MACRO2), _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,    _______,  _______,  _______,  _______,
         RGB_TOG,  RGB_MOD,  RGB_VAI,  RGB_HUI,  RGB_SAI,  RGB_SPI,  _______,  _______,  _______,  _______,  _______,  _______,  _______,              RESET,    _______,  _______,
         _______,  RGB_RMOD, RGB_VAD,  RGB_HUD,  RGB_SAD,  RGB_SPD,  _______,  _______,  _______,  _______,  _______,  _______,  _______,    _______,
         _______,  _______,  _______,  _______,  _______,  _______,  _______,  NK_TOGG,  _______,  _______,  _______,  _______,              _______,            _______,
-        _______,  _______,  _______,                                _______,                                _______,  _______,  _______,    _______,  _______,  _______,  _______),
+        _______,  _______,  _______,                                DM_RSTP,                                _______,  _______,  _______,    _______,  _______,  _______,  _______),
 
     [WIN_BASE] = LAYOUT_tkl_f13_iso(
         KC_ESC,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,     KC_MUTE,  TD(TD_PRNT_SCRN_WIN),  TO(WIN_BASE_TWO),    RGB_MOD,
@@ -72,11 +74,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [WIN_FN] = LAYOUT_tkl_f13_iso(
         _______,  KC_BRID,  KC_BRIU,  _______,  _______,  RGB_VAD,  RGB_VAI,  KC_MPRV,  _______,  _______,  KC_MPRV,  KC_MPLY,  KC_MNXT,    RGB_TOG,  _______,  _______,  RGB_TOG,
-        _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,    _______,  _______,  _______,  _______,
+        _______,  TD(TD_DYN_MACRO),   TD(TD_DYN_MACRO2),  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,    _______,  _______,  _______,  _______,
         RGB_TOG,  RGB_MOD,  RGB_VAI,  RGB_HUI,  RGB_SAI,  RGB_SPI,  _______,  _______,  _______,  _______,  _______,  _______,  _______,              _______,  _______,  _______,
         _______,  RGB_RMOD, RGB_VAD,  RGB_HUD,  RGB_SAD,  RGB_SPD,  _______,  _______,  _______,  _______,  _______,  _______,  _______,    _______,
         _______,  _______,  _______,  _______,  _______,  _______,  _______,  NK_TOGG,  _______,  _______,  _______,  _______,              _______,            _______,
-        _______,  _______,  _______,                                _______,                                _______,  _______,  _______,    TT(WIN_PASS_FN),  _______,  _______,  _______),
+        _______,  _______,  _______,                                DM_RSTP,                                _______,  _______,  _______,    TT(WIN_PASS_FN),  _______,  _______,  _______),
 
     [WIN_PASS_FN] = LAYOUT_tkl_f13_iso(
         _______,  KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,     RGB_TOG,  _______,  _______,  RGB_TOG,
@@ -183,6 +185,44 @@ void dance_mac_layers(qk_tap_dance_state_t *state, void *user_data) {
     }
 };
 
+void dance_dyn_macro(qk_tap_dance_state_t *state, void *user_data) {
+    keyrecord_t kr;
+
+    switch(state->count) {
+        case 1:
+            kr.event.pressed = false;
+            rgb_matrix_reload_from_eeprom();
+            process_dynamic_macro(DYN_MACRO_PLAY1, &kr );
+            break;
+        case 2: 
+            dynamic_macro_led_blink();
+            kr.event.pressed = false;
+            process_dynamic_macro( DYN_REC_START1, &kr );
+            break;
+        default:
+            break;
+    }
+};
+
+void dance_dyn_macro2(qk_tap_dance_state_t *state, void *user_data) {
+    keyrecord_t kr;
+
+    switch(state->count) {
+        case 1:
+            kr.event.pressed = false;
+            rgb_matrix_reload_from_eeprom();
+            process_dynamic_macro(DYN_MACRO_PLAY2, &kr );
+            break;
+        case 2: 
+            dynamic_macro_led_blink();
+            kr.event.pressed = false;
+            process_dynamic_macro( DYN_REC_START2, &kr );
+            break;
+        default:
+            break;
+    }
+};
+
 qk_tap_dance_action_t tap_dance_actions[] = {
     // Tap once for Escape, twice for Caps Lock
     [TD_SIT] =  ACTION_TAP_DANCE_FN_KEYCODE(dance_cpc, KC_S),
@@ -196,7 +236,9 @@ qk_tap_dance_action_t tap_dance_actions[] = {
     [TD_END_OF_FILE] = ACTION_TAP_DANCE_DOUBLE(KC_PGDN, LCMD(KC_DOWN)),
     [TD_PRNT_SCRN_MAC] = ACTION_TAP_DANCE_DOUBLE(SCMD(KC_3), SCMD(KC_4)),
     [TD_PRNT_SCRN_WIN] = ACTION_TAP_DANCE_DOUBLE(KC_PSCR, SWIN(KC_S)),
-    [TD_MAC_LAYERS] = ACTION_TAP_DANCE_FN(dance_mac_layers)
+    [TD_MAC_LAYERS] = ACTION_TAP_DANCE_FN(dance_mac_layers),
+    [TD_DYN_MACRO] = ACTION_TAP_DANCE_FN(dance_dyn_macro),
+    [TD_DYN_MACRO2] = ACTION_TAP_DANCE_FN(dance_dyn_macro2)
 };
 
 
