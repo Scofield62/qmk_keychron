@@ -23,7 +23,8 @@ enum layers{
     WIN_FN,
     WIN_PASS_FN,
     MAC_VSCODE,
-    WIN_BASE_TWO
+    WIN_BASE_TWO,
+    WIN_VSCODE
 };
 
 
@@ -44,17 +45,23 @@ enum {
     TD_DYN_MACRO2
 };
 
+enum custom_keycodes {
+    PRETTIFY_JSON = SAFE_RANGE,
+};
+
+
+
 static uint16_t fullscreen_timer;
 bool isFullscreen = false;
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [MAC_BASE] = LAYOUT_tkl_f13_iso(
-        KC_ESC,   KC_BRID,  KC_BRIU,  LCMD(KC_F3),    LCTL(KC_UP),    RGB_VAD,  RGB_VAI,  KC_NO,    KC_NO,    KC_NO,    KC_MPRV,  KC_MPLY,  KC_MNXT,    KC_MUTE,  TD(TD_PRNT_SCRN_MAC),    TD(TD_MAC_LAYERS),    RGB_MOD,
+        KC_ESC,   KC_BRID,  KC_BRIU,  LCMD(KC_F3),    LCTL(KC_UP),    RGB_VAD,  RGB_VAI,  KC_NO,    KC_NO,    KC_NO,    KC_MPRV,  KC_MPLY,  KC_MNXT,    KC_MUTE,  TD(TD_PRNT_SCRN_MAC),    TD(TD_MAC_LAYERS),    OSL(MAC_VSCODE),
         KC_GRV,   KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,     KC_7,     KC_8,     KC_9,     KC_0,     KC_MINS,  KC_EQL,     KC_BSPC,  KC_INS,   KC_HOME,  TD(TD_TOP_OF_FILE),
         KC_TAB,   KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,     KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     KC_LBRC,  KC_RBRC,              KC_DEL,   KC_END,   TD(TD_END_OF_FILE),
         KC_CAPS,  KC_A,     KC_S,     KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_QUOT,  KC_NUHS,    KC_ENT,
-        TD(TD_NEXT_DESK_MAC),  KC_NUBS,  KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,              KC_RSFT,            KC_UP,
-        TD(TD_PREVIOUS_DESK_MAC),  KC_LOPT,  KC_LCMD,                                KC_SPC,                                 KC_RCMD,  KC_ROPT,  MO(MAC_FN), KC_RCTL,  KC_LEFT,  KC_DOWN,  KC_RGHT),
+        LSFT_T(KC_RGHT),  KC_NUBS,  KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,              KC_RSFT,            KC_UP,
+        LCTL_T(KC_LEFT),  KC_LOPT,  KC_LCMD,                                KC_SPC,                                 KC_RCMD,  KC_ROPT,  MO(MAC_FN), KC_RCTL,  KC_LEFT,  KC_DOWN,  KC_RGHT),
 
     [MAC_FN] = LAYOUT_tkl_f13_iso(
         _______,  KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,     RGB_TOG,  _______,  _______,  RGB_TOG,
@@ -65,12 +72,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,  _______,  _______,                                DM_RSTP,                                _______,  _______,  _______,    _______,  _______,  _______,  _______),
 
     [WIN_BASE] = LAYOUT_tkl_f13_iso(
-        KC_ESC,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,     KC_MUTE,  TD(TD_PRNT_SCRN_WIN),  TO(WIN_BASE_TWO),    RGB_MOD,
+        KC_ESC,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,     KC_MUTE,  TD(TD_PRNT_SCRN_WIN),  TO(WIN_BASE_TWO),    OSL(WIN_VSCODE),
         KC_GRV,   KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,     KC_7,     KC_8,     KC_9,     KC_0,     KC_MINS,  KC_EQL,     KC_BSPC,  KC_INS,   KC_HOME,  KC_PGUP,
         KC_TAB,   KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,     KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     KC_LBRC,  KC_RBRC,              KC_DEL,   KC_END,   KC_PGDN,
         KC_CAPS,  KC_A,     KC_S,     KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_QUOT,  KC_NUHS,    KC_ENT,
-        TD(TD_NEXT_DESK_WIN),  KC_NUBS,  KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,              KC_RSFT,            KC_UP,
-        TD(TD_PREVIOUS_DESK_WIN),  KC_LWIN,  KC_LALT,                                KC_SPC,                                 KC_RALT,  KC_RWIN,  MO(WIN_FN), KC_RCTL,  KC_LEFT,  KC_DOWN,  KC_RGHT),
+        LSFT_T(KC_RGHT),  KC_NUBS,  KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,              KC_RSFT,            KC_UP,
+        LCTL_T(KC_LEFT),  KC_LWIN,  KC_LALT,                                KC_SPC,                                 KC_RALT,  KC_RWIN,  MO(WIN_FN), KC_RCTL,  KC_LEFT,  KC_DOWN,  KC_RGHT),
 
     [WIN_FN] = LAYOUT_tkl_f13_iso(
         _______,  KC_BRID,  KC_BRIU,  _______,  _______,  RGB_VAD,  RGB_VAI,  KC_MPRV,  _______,  _______,  KC_MPRV,  KC_MPLY,  KC_MNXT,    RGB_TOG,  _______,  _______,  RGB_TOG,
@@ -89,12 +96,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,  _______,  _______,                                LCTL(LSFT(KC_SPC)),                                _______,  _______,  _______,    _______,  _______,  _______,  _______),
 
     [MAC_VSCODE] = LAYOUT_tkl_f13_iso(
-        KC_ESC,   KC_BRID,  KC_BRIU,  KC_NO,    KC_NO,    RGB_VAD,  RGB_VAI,  KC_MPRV,  KC_MPLY,  KC_MNXT,  KC_MUTE,  KC_VOLD,  KC_VOLU,    KC_MUTE,  TD(TD_PRNT_SCRN_MAC),    TD(TD_MAC_LAYERS),    RGB_MOD,
-        KC_GRV,   KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,     KC_7,     KC_8,     KC_9,     KC_0,     KC_MINS,  KC_EQL,     KC_BSPC,  KC_INS,   KC_HOME,  TD(TD_TOP_OF_FILE),
-        KC_TAB,   KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,     KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     KC_LBRC,  KC_RBRC,              KC_DEL,   KC_END,   TD(TD_END_OF_FILE),
+        KC_ESC,   KC_BRID,  KC_BRIU,  KC_NO,    KC_NO,    RGB_VAD,  RGB_VAI,  KC_MPRV,  KC_MPLY,  KC_MNXT,  KC_MUTE,  KC_VOLD,  KC_VOLU,    KC_MUTE,  TD(TD_PRNT_SCRN_MAC),    LCMD(KC_P),    RGB_MOD,
+        KC_GRV,   KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,     KC_7,     KC_8,     KC_9,     KC_0,     KC_MINS,  KC_EQL,     KC_BSPC,  LCMD(LALT(KC_K)),   KC_HOME,  LCMD(LALT(KC_J)),
+KC_TAB,   KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,     KC_Y,     KC_U,     KC_I,     KC_O,     PRETTIFY_JSON,     KC_LBRC,  KC_RBRC,             LCMD(LALT(KC_DEL)),   KC_END,   LCMD(LALT(KC_L)),
         KC_CAPS,  KC_A,     KC_S,     KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_QUOT,  KC_NUHS,    KC_ENT,
-        TD(TD_NEXT_DESK_MAC),  KC_NUBS,  KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,              KC_RSFT,            KC_UP,
-        TD(TD_PREVIOUS_DESK_MAC),  KC_LOPT,  KC_LCMD,                                KC_SPC,                                 KC_RCMD,  KC_ROPT,  TT(MAC_FN), KC_RCTL,  KC_LEFT,  KC_DOWN,  KC_RGHT),
+        KC_LSFT,  KC_NUBS,  KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,              KC_RSFT,            KC_UP,
+        KC_LCTL,  KC_LOPT,  KC_LCMD,                                LCMD(LSFT(KC_P)),                                 KC_RCMD,  KC_ROPT,  TT(MAC_FN), KC_RCTL,  KC_LEFT,  KC_DOWN,  KC_RGHT),
     
     [WIN_BASE_TWO] = LAYOUT_tkl_f13_iso(
         KC_ESC,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,     KC_MUTE,  TD(TD_PRNT_SCRN_WIN),  TO(WIN_BASE),    RGB_MOD,
@@ -104,6 +111,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_LSFT,  KC_NUBS,  KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,              KC_RSFT,            KC_UP,
         KC_LCTL,  KC_LWIN,  KC_LALT,                                KC_SPC,                                 KC_RALT,  KC_RWIN,  MO(WIN_FN), KC_RCTL,  KC_LEFT,  KC_DOWN,  KC_RGHT),
 
+    [WIN_VSCODE] = LAYOUT_tkl_f13_iso(
+        KC_ESC,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,     KC_MUTE,  TD(TD_PRNT_SCRN_WIN),  LCTL(KC_P),    RGB_MOD,
+        KC_GRV,   KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,     KC_7,     KC_8,     KC_9,     KC_0,     KC_MINS,  KC_EQL,     KC_BSPC,  LCTL(LALT(KC_K)),   KC_HOME,  LCTL(LALT(KC_J)),
+        KC_TAB,   KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,     KC_Y,     KC_U,     KC_I,     KC_O,     PRETTIFY_JSON,     KC_LBRC,  KC_RBRC,     LCTL(LALT(KC_BSPC)),   KC_END,   LCTL(LALT(KC_L)),
+        KC_CAPS,  KC_A,     KC_S,     KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_QUOT,  KC_NUHS,    KC_ENT,
+        KC_LSFT,  KC_NUBS,  KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,              KC_RSFT,            KC_UP,
+        KC_LCTL,  KC_LWIN,  KC_LALT,                                LCTL(LSFT(KC_P)),                                 KC_RALT,  KC_RWIN,  MO(WIN_FN), KC_RCTL,  KC_LEFT,  KC_DOWN,  KC_RGHT),
+
 };
 
 #if defined(ENCODER_MAP_ENABLE)
@@ -112,9 +127,10 @@ const uint16_t PROGMEM encoder_map[][1][2] = {
     [MAC_FN]   = {ENCODER_CCW_CW(RGB_VAD, RGB_VAI) },
     [WIN_BASE] = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
     [WIN_FN]   = {ENCODER_CCW_CW(RGB_VAD, RGB_VAI) },
-    [WIN_PASS_FN]   = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
+    [WIN_PASS_FN]  = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
     [MAC_VSCODE]   = {ENCODER_CCW_CW(SCMD(KC_SLSH), SCMD(KC_7)) },
     [WIN_BASE_TWO] = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
+    [WIN_VSCODE]   = {ENCODER_CCW_CW(LCTL(LSFT(KC_SLSH)), LCTL(LSFT(KC_7))) }
 };
 #endif
 
@@ -186,37 +202,30 @@ void dance_mac_layers(qk_tap_dance_state_t *state, void *user_data) {
 };
 
 void dance_dyn_macro(qk_tap_dance_state_t *state, void *user_data) {
+    qk_tap_dance_pair_t *pair = (qk_tap_dance_pair_t *)user_data;
+    uint16_t keycode = pair->kc1;
+
     keyrecord_t kr;
 
     switch(state->count) {
         case 1:
             kr.event.pressed = false;
-            rgb_matrix_reload_from_eeprom();
-            process_dynamic_macro(DYN_MACRO_PLAY1, &kr );
+            if(keycode == KC_1) {
+                process_dynamic_macro(DYN_MACRO_PLAY1, &kr );
+            } else if(keycode == KC_2) {
+                process_dynamic_macro(DYN_MACRO_PLAY2, &kr );
+            }
             break;
         case 2: 
-            dynamic_macro_led_blink();
             kr.event.pressed = false;
-            process_dynamic_macro( DYN_REC_START1, &kr );
-            break;
-        default:
-            break;
-    }
-};
-
-void dance_dyn_macro2(qk_tap_dance_state_t *state, void *user_data) {
-    keyrecord_t kr;
-
-    switch(state->count) {
-        case 1:
-            kr.event.pressed = false;
-            rgb_matrix_reload_from_eeprom();
-            process_dynamic_macro(DYN_MACRO_PLAY2, &kr );
-            break;
-        case 2: 
-            dynamic_macro_led_blink();
-            kr.event.pressed = false;
-            process_dynamic_macro( DYN_REC_START2, &kr );
+            rgb_matrix_set_color_all(255,0,0);
+            rgb_matrix_set_speed_noeeprom(255);
+            rgb_matrix_mode_noeeprom(RGB_MATRIX_BREATHING);
+            if(keycode == KC_1) {
+                process_dynamic_macro( DYN_REC_START1, &kr );
+            } else if(keycode == KC_2) {
+                process_dynamic_macro( DYN_REC_START2, &kr );
+            }
             break;
         default:
             break;
@@ -228,19 +237,20 @@ qk_tap_dance_action_t tap_dance_actions[] = {
     [TD_SIT] =  ACTION_TAP_DANCE_FN_KEYCODE(dance_cpc, KC_S),
     [TD_UAT] =  ACTION_TAP_DANCE_FN_KEYCODE(dance_cpc, KC_U),
     [TD_PROD] = ACTION_TAP_DANCE_FN_KEYCODE(dance_cpc, KC_P),
-    [TD_NEXT_DESK_MAC] = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, LCTL(KC_RIGHT)),
-    [TD_PREVIOUS_DESK_MAC] = ACTION_TAP_DANCE_DOUBLE(KC_LCTL, LCTL(KC_LEFT)),
     [TD_NEXT_DESK_WIN] = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, LWIN(LCTL(KC_RIGHT))),
     [TD_PREVIOUS_DESK_WIN] = ACTION_TAP_DANCE_DOUBLE(KC_LCTL, LWIN(LCTL(KC_LEFT))),
-    [TD_TOP_OF_FILE] = ACTION_TAP_DANCE_DOUBLE(KC_PGUP, LCMD(KC_UP)),
-    [TD_END_OF_FILE] = ACTION_TAP_DANCE_DOUBLE(KC_PGDN, LCMD(KC_DOWN)),
+    [TD_TOP_OF_FILE] = ACTION_TAP_DANCE_DOUBLE(KC_PGUP, LCMD(LALT(KC_J))),
+    [TD_END_OF_FILE] = ACTION_TAP_DANCE_DOUBLE(KC_PGDN, LCMD(LALT(KC_L))),
     [TD_PRNT_SCRN_MAC] = ACTION_TAP_DANCE_DOUBLE(SCMD(KC_3), SCMD(KC_4)),
     [TD_PRNT_SCRN_WIN] = ACTION_TAP_DANCE_DOUBLE(KC_PSCR, SWIN(KC_S)),
     [TD_MAC_LAYERS] = ACTION_TAP_DANCE_FN(dance_mac_layers),
-    [TD_DYN_MACRO] = ACTION_TAP_DANCE_FN(dance_dyn_macro),
-    [TD_DYN_MACRO2] = ACTION_TAP_DANCE_FN(dance_dyn_macro2)
+    [TD_DYN_MACRO] = ACTION_TAP_DANCE_FN_KEYCODE(dance_dyn_macro, KC_1),
+    [TD_DYN_MACRO2] = ACTION_TAP_DANCE_FN_KEYCODE(dance_dyn_macro, KC_2)
 };
 
+void dynamic_macro_record_end_user(int8_t direction) {
+    rgb_matrix_reload_from_eeprom();
+}
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
@@ -272,6 +282,31 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 if(get_mods() & MOD_BIT(KC_LCMD)) {
                     SEND_STRING(SS_LCMD(SS_LALT(SS_TAP(X_BSPC))));
                 }
+            }
+            break;
+        case PRETTIFY_JSON:
+            if (record->event.pressed) {
+                SEND_STRING(SS_LGUI(SS_LSFT(SS_TAP(X_P))) "Prettifz JSON" SS_TAP(X_ENT));
+            }
+            break;
+        case LSFT_T(KC_RGHT):
+            if (record->tap.count && record->event.pressed) {
+                if(get_highest_layer(layer_state|default_layer_state) == 0) {
+                    tap_code16(LCTL(KC_RGHT)); 
+                } else {
+                    tap_code16(LCTL(LWIN(KC_RGHT)));  
+                }
+                return false;
+            }
+            break;
+        case LCTL_T(KC_LEFT):
+            if (record->tap.count && record->event.pressed) {
+                if(get_highest_layer(layer_state|default_layer_state) == 0) {
+                    tap_code16(LCTL(KC_LEFT)); 
+                } else {
+                    tap_code16(LCTL(LWIN(KC_LEFT)));
+                }
+                return false;
             }
             break;
     } 
