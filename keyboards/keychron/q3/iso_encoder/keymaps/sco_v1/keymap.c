@@ -130,7 +130,7 @@ const uint16_t PROGMEM encoder_map[][1][2] = {
     [WIN_PASS_FN]  = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
     [MAC_VSCODE]   = {ENCODER_CCW_CW(SCMD(KC_SLSH), SCMD(KC_7)) },
     [WIN_BASE_TWO] = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
-    [WIN_VSCODE]   = {ENCODER_CCW_CW(LCTL(LSFT(KC_SLSH)), LCTL(LSFT(KC_7))) }
+    [WIN_VSCODE]   = {ENCODER_CCW_CW(LCTL(LSFT(KC_SLSH)), LCTL(LSFT(KC_EQL))) }
 };
 #endif
 
@@ -286,7 +286,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
         case PRETTIFY_JSON:
             if (record->event.pressed) {
-                SEND_STRING(SS_LGUI(SS_LSFT(SS_TAP(X_P))) "Prettifz JSON" SS_TAP(X_ENT));
+                if(get_highest_layer(layer_state|default_layer_state) == 5) {
+                    SEND_STRING(SS_LGUI(SS_LSFT(SS_TAP(X_P))) "Prettifz JSON" SS_TAP(X_ENT));
+                } else {
+                    SEND_STRING(SS_LCTL(SS_LSFT(SS_TAP(X_P))) "Prettifz JSON" SS_TAP(X_ENT));
+                }
             }
             break;
         case LSFT_T(KC_RGHT):
